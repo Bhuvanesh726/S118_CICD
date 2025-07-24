@@ -2,9 +2,9 @@ name: CI/CD React App
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 permissions:
   contents: write  
@@ -31,18 +31,11 @@ jobs:
       - name: Build the project
         run: npm run build
 
-      # Configure Git identity
-      - name: Configure Git
-        run: |
-          git config --global user.name "Bhuvanesh726"
-          git config --global user.email "bhuvaneshborra26@gmail.com"
-
       # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "Bhuvanesh726"
-          git config --global user.email "bhuvaneshborra26@gmail.com"
-          npm install -g gh-pages
-          gh-pages -d dist -r https://x-access-token:${GITHUB_TOKEN}@github.com/Bhuvanesh726/S118_CICD.git
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          user_name: 'Bhuvanesh726'
+          user_email: 'bhuvaneshborra26@gmail.com'
